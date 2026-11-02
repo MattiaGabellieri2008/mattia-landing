@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Code2,
@@ -10,7 +12,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   CheckCircle2,
-  Zap,
   Send,
   Copy,
   Check,
@@ -88,7 +89,7 @@ const languageColorMap = {
   Dart: '#00B4AB'
 };
 
-export default function App() {
+export default function Page() {
   // Visual burst effects state
   const [bursts, setBursts] = useState([]);
   const triggerBurst = (x, y, label) => {
@@ -784,6 +785,14 @@ ${formData.description}
             {storePipelineStages.map((stage, idx) => (
               <div
                 key={stage.step}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActivePipelineStage(idx);
+                  }
+                }}
                 onClick={() => {
                   setActivePipelineStage(idx);
                 }}
@@ -1675,6 +1684,14 @@ ${formData.description}
                       {formData.selectedFeatures.map((f) => (
                         <span
                           key={f}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              toggleFeatureTag(f);
+                            }
+                          }}
                           onClick={() => toggleFeatureTag(f)}
                           className="px-2.5 py-1 bg-white border-2 border-[#111111] font-mono-code text-[11px] font-extrabold inline-flex items-center gap-1.5 cursor-pointer hover:bg-[#FF90E8] max-w-full truncate"
                           title="Clicca per rimuovere"
