@@ -916,9 +916,9 @@ ${formData.description}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left 8 Columns: Authentic Live GitHub Repositories Feed */}
-            <div className="lg:col-span-8 bg-white brutal-card-lg p-5 sm:p-8 space-y-6 overflow-hidden">
+          <div className="space-y-8">
+            {/* Authentic Live GitHub Repositories Feed */}
+            <div className="w-full bg-white brutal-card-lg p-5 sm:p-8 space-y-6 overflow-hidden">
               <div className="p-4 bg-[#F7F4EB] border-3 border-[#111111] shadow-[4px_4px_0px_#111111] space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2.5 min-w-0">
@@ -1124,8 +1124,8 @@ ${formData.description}
               )}
             </div>
 
-            {/* Right 4 Columns: Founder Identity + LinkedIn & Instagram */}
-            <div className="lg:col-span-4 space-y-6">
+            {/* Full-width founder biography */}
+            <div className="w-full">
               <div className="bg-[#FFE600] brutal-card-lg h-auto p-5 sm:p-6 space-y-4">
                 <div className="flex items-center gap-3.5">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#111111] text-[#FFE600] border-3 border-[#111111] flex flex-col items-center justify-center font-mono-code font-extrabold shrink-0">
@@ -1145,7 +1145,7 @@ ${formData.description}
                   </div>
                 </div>
 
-                <div className="h-auto bg-white p-6 border-4 border-[#111111] shadow-[4px_4px_0px_#111111] space-y-4 text-xs sm:text-sm font-bold text-zinc-900 leading-relaxed break-words">
+                <div className="h-auto w-full max-w-5xl mx-auto bg-white p-6 border-4 border-[#111111] shadow-[4px_4px_0px_#111111] space-y-4 text-xs sm:text-sm font-bold text-zinc-900 leading-relaxed break-words">
                   <p>
                     Sviluppatore Full-Stack di 18 anni e studente dell&apos;ultimo anno all&apos;ITIS
                     Enrico Mattei (indirizzo Informatica). Spinto da una forte visione
@@ -1170,7 +1170,10 @@ ${formData.description}
                   </p>
                 </div>
               </div>
+            </div>
 
+            {/* Social cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <a
                 href={socialLinks.linkedin}
                 target="_blank"
