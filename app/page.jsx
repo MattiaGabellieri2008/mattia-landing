@@ -603,14 +603,14 @@ ${formData.description}
               onClick={() => scrollToSection(soluzioniRef)}
               className="px-3 py-1.5 bg-white border-2 border-[#111111] shadow-[2px_2px_0px_#111111] hover:bg-[#FFE600] transition-colors cursor-pointer"
             >
-              01. CLIENTI
+              CLIENTI
             </button>
             <button
               type="button"
               onClick={() => scrollToSection(ecosistemaRef)}
               className="px-3 py-1.5 bg-white border-2 border-[#111111] shadow-[2px_2px_0px_#111111] hover:bg-[#00F5D4] transition-colors cursor-pointer"
             >
-              02. APP STORE & STACK
+              APP STORE & STACK
             </button>
             <button
               type="button"
@@ -618,7 +618,7 @@ ${formData.description}
               className="px-3 py-1.5 bg-white border-2 border-[#111111] shadow-[2px_2px_0px_#111111] hover:bg-[#A3E635] transition-colors cursor-pointer flex items-center gap-1.5"
             >
               <Github className="w-3.5 h-3.5" />
-              <span>03. GITHUB REPOSITORY</span>
+              <span>GITHUB REPOSITORY</span>
             </button>
           </nav>
 
@@ -629,7 +629,7 @@ ${formData.description}
               onClick={() => scrollToSection(configuratorRef)}
               className="px-3 sm:px-4 py-2 bg-[#FF5722] text-white brutal-btn font-mono-code font-extrabold text-[11px] sm:text-sm uppercase flex items-center gap-1 sm:gap-1.5 cursor-pointer"
             >
-              <span className="truncate">PROPONI PROGETTO</span>
+              <span className="truncate">PROPONI PROGETTO/COLLABORA CON ME</span>
               <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             </button>
           </div>
@@ -878,10 +878,10 @@ ${formData.description}
             <div>
               <div className="inline-flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 bg-[#111111] text-[#A3E635] font-mono-code font-extrabold text-xs uppercase">
-                  03 // REPOSITORY GITHUB REALI & PROFILI UFFICIALI
+                  03 // REPOSITORY GITHUB & PROFILI UFFICIALI
                 </span>
                 <span className="px-3 py-1 bg-[#FFE600] border-2 border-[#111111] font-mono-code font-extrabold text-xs uppercase">
-                  100% GITHUB LIVE
+                  GITHUB LIVE
                 </span>
               </div>
               <h2 className="font-display font-extrabold text-2xl sm:text-4xl uppercase mt-3 break-words">
