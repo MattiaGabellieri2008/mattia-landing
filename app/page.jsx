@@ -1126,7 +1126,7 @@ ${formData.description}
 
             {/* Right 4 Columns: Founder Identity + LinkedIn & Instagram */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-[#FFE600] brutal-card-lg p-5 sm:p-6 space-y-4">
+              <div className="bg-[#FFE600] brutal-card-lg h-auto p-5 sm:p-6 space-y-4">
                 <div className="flex items-center gap-3.5">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#111111] text-[#FFE600] border-3 border-[#111111] flex flex-col items-center justify-center font-mono-code font-extrabold shrink-0">
                     <span className="text-base sm:text-lg leading-none">MG</span>
@@ -1145,11 +1145,30 @@ ${formData.description}
                   </div>
                 </div>
 
-                <p className="text-xs sm:text-sm font-bold text-zinc-900 leading-relaxed bg-white p-3.5 border-2 border-[#111111] break-words">
-                  Ragazzo giovane con visione d&apos;impresa: progetto architetture software solide
-                  e seguo i miei clienti dall&apos;idea su carta fino al rilascio su Web, App Store
-                  e Google Play.
-                </p>
+                <div className="h-auto bg-white p-6 border-4 border-[#111111] shadow-[4px_4px_0px_#111111] space-y-4 text-xs sm:text-sm font-bold text-zinc-900 leading-relaxed break-words">
+                  <p>
+                    Sviluppatore Full-Stack di 18 anni e studente dell&apos;ultimo anno all&apos;ITIS
+                    Enrico Mattei (indirizzo Informatica). Spinto da una forte visione
+                    d&apos;impresa, il mio obiettivo è fornire sempre il miglior prodotto finale,
+                    affiancando il cliente in un percorso completo: dall&apos;ideazione del
+                    progetto, alla progettazione del database (backend), fino allo sviluppo
+                    dell&apos;interfaccia utente (frontend) e alla consegna del software finito.
+                  </p>
+                  <p>
+                    Ogni tecnologia che utilizzo è uno strumento scelto per garantire
+                    prestazioni e scalabilità. Sviluppo interfacce fluide con Next.js,
+                    TypeScript e Tailwind CSS e strutturo backend solidi con Google Cloud
+                    Platform e Firebase Data Connect. Curo inoltre l&apos;intera infrastruttura
+                    di rilascio: dal deploy su Vercel e le email transazionali con Resend, fino
+                    alla configurazione di domini web personalizzati su misura per il cliente.
+                  </p>
+                  <p>
+                    Questo approccio mi permette di trasformare problemi di business in
+                    soluzioni reali e pronte per il Web, l&apos;App Store e Google Play. Un metodo
+                    che ho applicato anche ideando e sviluppando Trimmy, un gestionale cloud
+                    completo per saloni e beauty center.
+                  </p>
+                </div>
               </div>
 
               <a
