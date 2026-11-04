@@ -591,7 +591,7 @@ ${formData.description}
                 </span>
               </div>
               <p className="font-mono-code text-[10px] sm:text-[11px] text-zinc-700 hidden sm:block truncate">
-                Quaderno Creativo & Full-Stack Studio • Web Cloud + App iOS & Android
+                Full-Stack Studio • Web Cloud + App iOS & Android
               </p>
             </div>
           </div>
@@ -644,7 +644,7 @@ ${formData.description}
         <section className="max-w-4xl mx-auto">
           <div className="bg-white brutal-card-lg p-5 sm:p-10 relative overflow-hidden">
             <div className="masking-tape px-3 sm:px-4 py-1 font-mono-code font-extrabold text-[10px] sm:text-[11px] uppercase inline-block mb-4 -rotate-1 max-w-full truncate">
-              📌 QUADERNO DI PROGETTAZIONE // MATTIA GABELLIERI (CLASSE 2008)
+              📌 MATTIA GABELLIERI - STUDENTE & SVILUPPATORE (CLASSE 2008)
             </div>
 
             <h1 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl uppercase leading-[1.08] tracking-tight break-words">
