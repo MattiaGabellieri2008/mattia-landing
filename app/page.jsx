@@ -567,7 +567,7 @@ ${formData.description}
 
       {/* TOP NEO-BRUTALIST DESKTOP / NOTEBOOK BAR */}
       <header className="sticky top-0 z-40 bg-[#F7F4EB]/95 backdrop-blur-sm border-b-4 border-[#111111]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3 overflow-x-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-20 h-auto py-3 flex flex-col items-stretch lg:flex-row lg:items-center lg:justify-between gap-4 overflow-x-hidden">
           {/* Brand Logo Stamp */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
@@ -623,13 +623,13 @@ ${formData.description}
           </nav>
 
           {/* Interactive Controls: Primary CTA */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex w-full items-center gap-2 lg:w-auto lg:shrink-0">
             <button
               type="button"
               onClick={() => scrollToSection(configuratorRef)}
-              className="px-3 sm:px-4 py-2 bg-[#FF5722] text-white brutal-btn font-mono-code font-extrabold text-[11px] sm:text-sm uppercase flex items-center gap-1 sm:gap-1.5 cursor-pointer"
+              className="w-full lg:w-auto justify-center text-center px-3 sm:px-4 py-2 bg-[#FF5722] text-white brutal-btn font-mono-code font-extrabold text-[11px] sm:text-sm uppercase flex items-center gap-1 sm:gap-1.5 cursor-pointer"
             >
-              <span className="truncate">PROPONI PROGETTO/COLLABORA CON ME</span>
+              <span>PROPONI PROGETTO/COLLABORA CON ME</span>
               <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             </button>
           </div>
