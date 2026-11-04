@@ -16,6 +16,12 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Configurazione email
+
+Per abilitare l'invio delle richieste dal configuratore, imposta `RESEND_API_KEY` nelle
+variabili d'ambiente del progetto oppure in `.env.local` durante lo sviluppo locale.
+Il file `.env.local` è ignorato da Git: non inserire la chiave nel codice e non committarla.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

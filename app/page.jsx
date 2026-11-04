@@ -5,9 +5,6 @@ import {
   Code2,
   Rocket,
   Building2,
-  Github,
-  Linkedin,
-  Instagram,
   Mail,
   ArrowRight,
   ArrowUpRight,
@@ -27,14 +24,6 @@ import {
   Plus,
   X
 } from 'lucide-react';
-
-/**
- * PREDISPOSIZIONE FUTURA PER LA TUA FOTO PERSONALE IN NEXT.JS:
- * Quando vorrai aggiungere una tua foto personale in futuro, ti basterà
- * inserire il file in `/public/mattia.jpg` e impostare:
- * const FUTURE_PHOTO_URL = '/mattia.jpg';
- */
-const FUTURE_PHOTO_URL = null;
 
 // Social links configuration
 const socialLinks = {
@@ -89,7 +78,58 @@ const languageColorMap = {
   Dart: '#00B4AB'
 };
 
+function Github({ className }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      viewBox="0 0 16 16"
+      fill="currentColor"
+    >
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.39.07.53-.17.53-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.14.46.54.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+    </svg>
+  );
+}
+
+function Linkedin({ className }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.78C.8 0 0 .77 0 1.73v20.54C0 23.23.8 24 1.78 24h20.44c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" />
+    </svg>
+  );
+}
+
+function Instagram({ className }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+    </svg>
+  );
+}
+
 export default function Page() {
+  const [currentYear, setCurrentYear] = useState(null);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
   // Visual burst effects state
   const [bursts, setBursts] = useState([]);
   const triggerBurst = (x, y, label) => {
@@ -1960,7 +2000,7 @@ ${formData.description}
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <span className="px-2.5 py-1 bg-[#FFE600] text-[#111111] font-extrabold shrink-0">MG</span>
             <span className="break-words">
-              © {new Date().getFullYear()} Mattia Gabellieri • Full-Stack Web & Mobile Store
+              © {currentYear ? `${currentYear} ` : ''}Mattia Gabellieri • Full-Stack Web & Mobile Store
               Developer
             </span>
           </div>
