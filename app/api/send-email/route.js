@@ -65,10 +65,15 @@ export async function POST(request) {
     typeof clientEmail !== 'string' ||
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail) ||
     typeof description !== 'string' ||
-    !description.trim()
+    !description.trim() ||
+    body.privacyPolicyAccepted !== true
   ) {
     return NextResponse.json(
-      { success: false, error: 'Nome, email e descrizione del progetto sono obbligatori.' },
+      {
+        success: false,
+        error:
+          'Nome, email, descrizione del progetto e accettazione della Privacy Policy sono obbligatori.'
+      },
       { status: 400 }
     );
   }

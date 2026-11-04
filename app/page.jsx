@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import {
   Code2,
   Rocket,
@@ -232,6 +233,7 @@ export default function Page() {
 
   const [submitStatus, setSubmitStatus] = useState('idle');
   const [submitError, setSubmitError] = useState('');
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [formError, setFormError] = useState('');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedBrief, setCopiedBrief] = useState(false);
@@ -257,6 +259,7 @@ export default function Page() {
     }));
     setCurrentStep(1);
     setSubmitStatus('idle');
+    setPrivacyAccepted(false);
     setFormError('');
     scrollToSection(configuratorRef);
   };
@@ -417,6 +420,11 @@ ${formData.description}
   // Submission handler using Resend Next.js API Route (/api/send-email)
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if (!privacyAccepted) {
+      setFormError('Leggi e accetta la Privacy Policy prima di inviare la richiesta.');
+      return;
+    }
+
     if (!formData.fullName.trim() || !formData.email.trim() || !formData.description.trim()) {
       setFormError(
         'Compila Nome, Email e la descrizione del progetto prima di inviare la richiesta!'
@@ -434,6 +442,7 @@ ${formData.description}
       clientName: formData.fullName,
       companyName: formData.companyName || 'Non specificata',
       clientEmail: formData.email,
+      privacyPolicyAccepted: true,
       phone: formData.phone || 'Non specificato',
       preferredContactMethod: formData.preferredContactMethod,
       clientProfile: getEffectiveClientProfile(),
@@ -1899,6 +1908,35 @@ ${formData.description}
                       />
                     </div>
 
+                    <div className="flex items-start gap-3 border-2 border-[#111111] bg-[#F7F4EB] p-3.5">
+                      <input
+                        id="privacy-accepted"
+                        type="checkbox"
+                        required
+                        checked={privacyAccepted}
+                        onChange={(e) => {
+                          setPrivacyAccepted(e.target.checked);
+                          if (e.target.checked) setFormError('');
+                        }}
+                        className="mt-0.5 h-5 w-5 shrink-0 accent-[#111111]"
+                      />
+                      <label
+                        htmlFor="privacy-accepted"
+                        className="font-mono-code text-xs font-bold leading-relaxed"
+                      >
+                        Ho letto e accetto la{' '}
+                        <Link
+                          href="/privacy"
+                          className="font-extrabold underline underline-offset-2"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Privacy Policy
+                        </Link>{' '}
+                        per la gestione della richiesta di contatto.
+                      </label>
+                    </div>
+
                     <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-3 pt-2">
                       <button
                         type="button"
@@ -1916,13 +1954,16 @@ ${formData.description}
                           rel="noopener noreferrer"
                           onClick={(e) => {
                             if (
+                              !privacyAccepted ||
                               !formData.fullName.trim() ||
                               !formData.email.trim() ||
                               !formData.description.trim()
                             ) {
                               e.preventDefault();
                               setFormError(
-                                'Compila Nome, Email e Descrizione prima di aprire Gmail!'
+                                !privacyAccepted
+                                  ? 'Leggi e accetta la Privacy Policy prima di inviare la richiesta.'
+                                  : 'Compila Nome, Email e Descrizione prima di aprire Gmail!'
                               );
                             }
                           }}
@@ -1936,6 +1977,7 @@ ${formData.description}
                           type="submit"
                           disabled={
                             submitStatus === 'submitting' ||
+                            !privacyAccepted ||
                             !formData.fullName.trim() ||
                             !formData.email.trim() ||
                             !formData.description.trim()
@@ -2037,11 +2079,16 @@ ${formData.description}
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="text-[#FFE600] hover:underline flex items-center gap-1 cursor-pointer truncate max-w-[200px]"
+              className="text-[#FFE600] hover:underline flex items-center gap-1 cursor-pointer"
             >
               <Mail className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">{copiedEmail ? 'Email Copiata!' : socialLinks.email}</span>
+              <span className="break-all">
+                {copiedEmail ? 'Email Copiata!' : socialLinks.email}
+              </span>
             </button>
+            <Link href="/privacy" className="text-white hover:underline">
+              Privacy Policy
+            </Link>
             <a
               href={socialLinks.github}
               target="_blank"
