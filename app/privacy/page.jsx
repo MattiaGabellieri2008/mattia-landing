@@ -78,11 +78,28 @@ export default function PrivacyPage() {
             <p className="mt-2">
               I dati sono trattati con strumenti informatici e limitatamente a
               quanto necessario per gestire la richiesta. L&apos;infrastruttura
-              di hosting è fornita da Vercel; Resend è utilizzato per la
-              trasmissione delle email. Questi fornitori trattano i dati per
-              consentire il funzionamento tecnico del servizio, secondo i
-              rispettivi termini e informative sulla privacy. I dati non sono
-              venduti.
+              di hosting è fornita da Vercel, che può trattare dati tecnici
+              relativi alla connessione e alla navigazione per erogare e
+              proteggere il sito. Resend riceve i dati inseriti nel modulo
+              necessari a recapitare la richiesta via email.
+            </p>
+            <p className="mt-2">
+              La pagina contatta inoltre le API di GitHub per mostrare il profilo
+              e i repository pubblici: GitHub riceve la richiesta del profilo
+              consultato e i dati tecnici della connessione; se inserisci un
+              altro nome utente nella ricerca, anche quel nome viene trasmesso a
+              GitHub. I font della pagina sono caricati da Google Fonts, che
+              riceve i dati tecnici necessari a fornire i file dei font, come
+              l&apos;indirizzo IP e informazioni sul browser.
+            </p>
+            <p className="mt-2">
+              Vercel, Resend, GitHub e Google operano secondo i rispettivi
+              termini e informative sulla privacy. I loro servizi possono
+              comportare trattamenti o trasferimenti di dati al di fuori dello
+              Spazio economico europeo; per informazioni sulle modalità e
+              garanzie applicate, consulta le informative dei rispettivi
+              fornitori. I dati non sono venduti né utilizzati dal Titolare per
+              finalità di marketing.
             </p>
           </section>
 
