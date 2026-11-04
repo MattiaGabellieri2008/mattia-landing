@@ -18,9 +18,17 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Configurazione email
 
-Per abilitare l'invio delle richieste dal configuratore, imposta `RESEND_API_KEY` nelle
-variabili d'ambiente del progetto oppure in `.env.local` durante lo sviluppo locale.
-Il file `.env.local` è ignorato da Git: non inserire la chiave nel codice e non committarla.
+Per abilitare l'invio delle richieste dal configuratore:
+
+1. Crea una API key in Resend e verifica un dominio che controlli.
+2. In Vercel, aggiungi `RESEND_API_KEY` e `RESEND_FROM_EMAIL` nelle variabili d'ambiente.
+   Imposta il mittente nel formato `Portfolio Landing <noreply@tuodominioverificato.it>`.
+3. Esegui un nuovo deploy dopo aver salvato le variabili.
+
+Per lo sviluppo locale, configura le stesse variabili in `.env.local`. Il mittente di test
+`onboarding@resend.dev` è usato solo se `RESEND_FROM_EMAIL` non è impostata; Resend può
+limitare i mittenti non verificati. Il file `.env.local` è ignorato da Git: non inserire
+chiavi o segreti nel codice e non committarli.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

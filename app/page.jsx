@@ -231,6 +231,7 @@ export default function Page() {
   });
 
   const [submitStatus, setSubmitStatus] = useState('idle');
+  const [submitError, setSubmitError] = useState('');
   const [formError, setFormError] = useState('');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedBrief, setCopiedBrief] = useState(false);
@@ -348,14 +349,6 @@ ${formData.description}
     }
   };
 
-  const getMailtoLink = () => {
-    const subject = encodeURIComponent(
-      `Proposta Progetto [${getEffectiveProjectType()}] - ${formData.fullName || 'Nuovo Cliente'}`
-    );
-    const body = encodeURIComponent(buildBriefText());
-    return `mailto:${socialLinks.email}?subject=${subject}&body=${body}`;
-  };
-
   const getGmailComposeLink = () => {
     const subject = encodeURIComponent(
       `Proposta Progetto [${getEffectiveProjectType()}] - ${formData.fullName || 'Nuovo Cliente'}`
@@ -432,6 +425,7 @@ ${formData.description}
     }
 
     setFormError('');
+    setSubmitError('');
     setSubmitStatus('submitting');
 
     const payloadData = {
@@ -464,16 +458,27 @@ ${formData.description}
         body: JSON.stringify(payloadData)
       });
 
-      if (response.ok) {
-        setSubmitStatus('success');
-      } else {
-        // Fallback to mailto if API route is not yet deployed or in preview
-        setSubmitStatus('fallback_mail');
-        window.open(getMailtoLink(), '_blank');
+      let result;
+      try {
+        result = await response.json();
+      } catch {
+        result = null;
       }
-    } catch {
+
+      if (!response.ok || result?.success !== true) {
+        setSubmitError(
+          result?.error ||
+            `Invio automatico non riuscito (errore ${response.status}).`
+        );
+        setSubmitStatus('fallback_mail');
+        return;
+      }
+
+      setSubmitStatus('success');
+    } catch (error) {
+      console.error('Could not submit the project inquiry:', error);
+      setSubmitError('Non riesco a raggiungere il servizio email. Riprova o invia la scheda tramite Gmail.');
       setSubmitStatus('fallback_mail');
-      window.open(getMailtoLink(), '_blank');
     }
   };
 
@@ -1948,17 +1953,40 @@ ${formData.description}
                     </div>
                   </>
                 ) : (
-                  <div className="p-5 sm:p-6 bg-[#A3E635] border-3 border-[#111111] shadow-[6px_6px_0px_#111111] space-y-4">
+                  <div
+                    className={`p-5 sm:p-6 border-3 border-[#111111] shadow-[6px_6px_0px_#111111] space-y-4 ${
+                      submitStatus === 'success'
+                        ? 'bg-[#A3E635]'
+                        : 'bg-[#FF5722] text-white'
+                    }`}
+                    role="status"
+                    aria-live="polite"
+                  >
                     <div className="flex items-center gap-2 font-display font-extrabold text-lg sm:text-2xl uppercase">
-                      <CheckCircle2 className="w-7 h-7 shrink-0" />
+                      {submitStatus === 'success' ? (
+                        <CheckCircle2 className="w-7 h-7 shrink-0" />
+                      ) : (
+                        <AlertCircle className="w-7 h-7 shrink-0" />
+                      )}
                       <span className="break-words">
                         {submitStatus === 'success'
-                          ? 'Proposta Inviata con Successo!'
-                          : 'Scheda Progetto Pronta!'}
+                          ? 'Richiesta presa in carico per l’invio'
+                          : 'Invio automatico non riuscito'}
                       </span>
                     </div>
                     <p className="text-xs sm:text-sm font-bold text-zinc-900 break-words">
-                      Destinatario: <strong className="break-all">{socialLinks.email}</strong>. La richiesta è stata inoltrata o puoi aprirla istantaneamente con i pulsanti sottostanti:
+                      {submitStatus === 'success' ? (
+                        <>
+                          Resend ha accettato la richiesta per l’invio a{' '}
+                          <strong className="break-all">{socialLinks.email}</strong>.
+                          Se non la trovi, controlla anche la cartella spam.
+                        </>
+                      ) : (
+                        <>
+                          {submitError} La scheda non è stata inviata automaticamente.
+                          Puoi inviarla tramite Gmail oppure copiare il riepilogo.
+                        </>
+                      )}
                     </p>
                     <div className="flex flex-wrap gap-3 font-mono-code text-xs font-extrabold">
                       <a

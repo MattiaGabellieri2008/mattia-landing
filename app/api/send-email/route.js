@@ -25,6 +25,9 @@ export async function POST(request) {
       { status: 500 }
     );
   }
+  const sender =
+    process.env.RESEND_FROM_EMAIL?.trim() ||
+    'Portfolio Landing <onboarding@resend.dev>';
 
   let body;
   try {
@@ -94,7 +97,7 @@ export async function POST(request) {
   try {
     const resend = new Resend(apiKey);
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio Landing <onboarding@resend.dev>',
+      from: sender,
       to: ['mattiagabellieri2008@gmail.com'],
       replyTo: clientEmail,
       subject: `Nuovo contatto progetto da ${subjectName} (${subjectCompany})`,
