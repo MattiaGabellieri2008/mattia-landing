@@ -83,7 +83,15 @@ export default function PrivacyPage() {
               di hosting è fornita da Vercel, che può trattare dati tecnici
               relativi alla connessione e alla navigazione per erogare e
               proteggere il sito. Resend riceve i dati inseriti nel modulo
-              necessari a recapitare la richiesta via email.
+              necessari a recapitare la richiesta via email alla casella Gmail
+              del Titolare; Google tratta quindi i dati contenuti nel messaggio
+              secondo la propria informativa. Se scegli di inviare la richiesta
+              direttamente tramite Gmail, Google riceve i dati che inserisci
+              nella bozza. Il link apre una bozza senza includere nella URL
+              nome, email, telefono o dettagli del progetto; questi dati
+              vengono aggiunti solo se li copi e li incolli nel messaggio. La
+              funzione di copia trasferisce il riepilogo negli appunti del
+              dispositivo solo su tua richiesta.
             </p>
             <p className="mt-2">
               La pagina contatta inoltre le API di GitHub per mostrare il profilo
@@ -95,8 +103,9 @@ export default function PrivacyPage() {
               l&apos;indirizzo IP e informazioni sul browser.
             </p>
             <p className="mt-2">
-              Vercel, Resend, GitHub e Google operano secondo i rispettivi
-              termini e informative sulla privacy. I loro servizi possono
+              Vercel, Resend, GitHub e Google (incluso Gmail, se scelto)
+              operano secondo i rispettivi termini e informative sulla privacy.
+              I loro servizi possono
               comportare trattamenti o trasferimenti di dati al di fuori dello
               Spazio economico europeo; per informazioni sulle modalità e
               garanzie applicate, consulta le informative dei rispettivi

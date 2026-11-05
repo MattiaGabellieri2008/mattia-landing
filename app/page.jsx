@@ -253,6 +253,7 @@ export default function Page() {
   const [fieldErrors, setFieldErrors] = useState({ email: '', phone: '' });
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedBrief, setCopiedBrief] = useState(false);
+  const [copyBriefError, setCopyBriefError] = useState('');
 
   const soluzioniRef = useRef(null);
   const ecosistemaRef = useRef(null);
@@ -359,22 +360,20 @@ ${formData.description}
   };
 
   const handleCopyBrief = async () => {
+    setCopyBriefError('');
     try {
       await navigator.clipboard.writeText(buildBriefText());
       setCopiedBrief(true);
       setTimeout(() => setCopiedBrief(false), 2500);
-    } catch {
-      setCopiedBrief(true);
-      setTimeout(() => setCopiedBrief(false), 2500);
+    } catch (error) {
+      console.error('Could not copy the project brief:', error);
+      setCopyBriefError('Impossibile copiare il riepilogo. Puoi selezionarlo e copiarlo manualmente.');
     }
   };
 
   const getGmailComposeLink = () => {
-    const subject = encodeURIComponent(
-      `Proposta Progetto [${getEffectiveProjectType()}] - ${formData.fullName || 'Nuovo Cliente'}`
-    );
-    const body = encodeURIComponent(buildBriefText());
-    return `https://mail.google.com/mail/?view=cm&fs=1&to=${socialLinks.email}&su=${subject}&body=${body}`;
+    const subject = encodeURIComponent('Richiesta tramite configuratore');
+    return `https://mail.google.com/mail/?view=cm&fs=1&to=${socialLinks.email}&su=${subject}`;
   };
 
   // Validation function for each step
@@ -2078,6 +2077,18 @@ ${formData.description}
                       </button>
 
                       <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={handleCopyBrief}
+                          className="w-full sm:w-auto px-5 py-3.5 sm:py-4 bg-white text-[#111111] brutal-btn font-mono-code font-extrabold text-xs uppercase flex items-center justify-center gap-2 text-center"
+                        >
+                          {copiedBrief ? (
+                            <Check className="w-4 h-4 shrink-0" />
+                          ) : (
+                            <Copy className="w-4 h-4 shrink-0" />
+                          )}
+                          <span>{copiedBrief ? 'RIEPILOGO COPIATO' : 'COPIA RIEPILOGO'}</span>
+                        </button>
                         <a
                           href={getGmailComposeLink()}
                           target="_blank"
@@ -2129,6 +2140,15 @@ ${formData.description}
                           </span>
                         </button>
                       </div>
+                      <p className="w-full font-mono-code text-xs font-bold">
+                        Il link Gmail non contiene i dati della richiesta: copia il riepilogo e
+                        incollalo nella bozza prima di inviarla.
+                      </p>
+                      {copyBriefError && (
+                        <p className="w-full border-l-4 border-red-600 bg-red-50 px-3 py-2 font-mono-code text-xs font-extrabold text-red-700" role="alert">
+                          {copyBriefError}
+                        </p>
+                      )}
                     </div>
                   </>
                 ) : (
@@ -2163,7 +2183,7 @@ ${formData.description}
                       ) : (
                         <>
                           {submitError} La scheda non è stata inviata automaticamente.
-                          Puoi inviarla tramite Gmail oppure copiare il riepilogo.
+                          Puoi copiare il riepilogo, aprire Gmail e incollarlo nella bozza.
                         </>
                       )}
                     </p>
@@ -2192,6 +2212,15 @@ ${formData.description}
                       >
                         MODIFICA DATI
                       </button>
+                      <p className="w-full font-mono-code text-xs font-extrabold text-zinc-900">
+                        Il link Gmail non include i dati personali. Copia la scheda e incollala
+                        nella bozza prima dell&apos;invio.
+                      </p>
+                      {copyBriefError && (
+                        <p className="w-full border-l-4 border-white bg-[#111111] px-3 py-2 font-mono-code text-xs font-extrabold text-white" role="alert">
+                          {copyBriefError}
+                        </p>
+                      )}
                     </div>
                   </div>
                 )}
