@@ -540,15 +540,8 @@ ${formData.description}
 
   return (
     <div className="min-h-screen bg-[#F7F4EB] text-[#111111] relative overflow-x-hidden selection:bg-[#FFE600] selection:text-[#111111] font-body">
-      {/* GOOGLE FONTS + NEO-BRUTALIST SCRAPBOOK STYLES */}
+      {/* NEO-BRUTALIST SCRAPBOOK STYLES */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap');
-
-        .font-display { font-family: 'Space Grotesk', sans-serif; }
-        .font-body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
-        .font-hand { font-family: 'Caveat', cursive; }
-
         .notebook-grid {
           background-color: #F7F4EB;
           background-image: radial-gradient(#111111 1.35px, transparent 1.35px);
