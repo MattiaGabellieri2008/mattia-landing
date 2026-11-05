@@ -13,9 +13,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mattia Gabellieri | Sviluppatore Web e Software",
+  metadataBase: new URL("https://mattiagabellieri.com"),
+  title: "Mattia Gabellieri | Full-Stack Web & App Developer",
   description:
-    "Portfolio di Mattia Gabellieri: sviluppo web, applicazioni e soluzioni software.",
+    "Portfolio ufficiale di Mattia Gabellieri, sviluppatore software (Next.js, TypeScript, Tailwind CSS, GCP) a Civitanova Marche. Trasformo idee in web e mobile app, creator di Trimmy.",
+  openGraph: {
+    title: "Mattia Gabellieri | Full-Stack Web & App Developer",
+    description:
+      "Portfolio ufficiale di Mattia Gabellieri, sviluppatore software (Next.js, TypeScript, Tailwind CSS, GCP) a Civitanova Marche. Trasformo idee in web e mobile app, creator di Trimmy.",
+    url: "https://mattiagabellieri.com",
+    siteName: "Mattia Gabellieri Portfolio",
+    locale: "it_IT",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
