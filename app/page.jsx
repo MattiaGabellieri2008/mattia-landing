@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import PhoneInput from 'react-phone-number-input';
+import PhoneInput, {
+  isValidPhoneNumber,
+  parsePhoneNumber
+} from 'react-phone-number-input';
 import {
   Code2,
   Rocket,
@@ -26,6 +29,17 @@ import {
   Plus,
   X
 } from 'lucide-react';
+
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9_%+-]+(?:\.[a-zA-Z0-9_%+-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+
+const isValidContactPhone = (phone) => {
+  if (!phone || !isValidPhoneNumber(phone)) return false;
+
+  const parsedPhone = parsePhoneNumber(phone);
+  const nationalNumberLength = parsedPhone?.nationalNumber.length ?? 0;
+  return nationalNumberLength >= 8 && nationalNumberLength <= 15;
+};
 
 // Social links configuration
 const socialLinks = {
@@ -236,6 +250,7 @@ export default function Page() {
   const [submitError, setSubmitError] = useState('');
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [formError, setFormError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({ email: '', phone: '' });
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedBrief, setCopiedBrief] = useState(false);
 
@@ -419,9 +434,29 @@ ${formData.description}
     setCurrentStep(targetStep);
   };
 
+  const validateContactFields = () => {
+    const errors = {
+      email: EMAIL_REGEX.test(formData.email.trim())
+        ? ''
+        : 'Dominio email non valido',
+      phone:
+        formData.phone && !isValidContactPhone(formData.phone)
+          ? 'Numero di telefono non valido (inserisci 8-15 cifre nazionali)'
+          : ''
+    };
+
+    setFieldErrors(errors);
+    return !errors.email && !errors.phone;
+  };
+
   // Submission handler using Resend Next.js API Route (/api/send-email)
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if (!validateContactFields()) {
+      setFormError('Correggi i campi evidenziati prima di inviare la richiesta.');
+      return;
+    }
+
     if (!privacyAccepted) {
       setFormError('Leggi e accetta la Privacy Policy prima di inviare la richiesta.');
       return;
@@ -443,9 +478,9 @@ ${formData.description}
       subject: `Nuova Proposta Progetto: ${getEffectiveProjectType()} — ${formData.fullName}`,
       clientName: formData.fullName,
       companyName: formData.companyName || 'Non specificata',
-      clientEmail: formData.email,
+      clientEmail: formData.email.trim(),
       privacyPolicyAccepted: true,
-      phone: formData.phone || 'Non specificato',
+      phone: formData.phone,
       website_url: honeypotRef.current?.value || '',
       preferredContactMethod: formData.preferredContactMethod,
       clientProfile: getEffectiveClientProfile(),
@@ -478,6 +513,16 @@ ${formData.description}
       }
 
       if (!response.ok || result?.success !== true) {
+        if (result?.field === 'email' || result?.field === 'phone') {
+          setFieldErrors((previous) => ({
+            ...previous,
+            [result.field]: result.error
+          }));
+          setFormError('Correggi i campi evidenziati prima di inviare la richiesta.');
+          setSubmitStatus('idle');
+          return;
+        }
+
         setSubmitError(
           result?.error ||
             `Invio automatico non riuscito (errore ${response.status}).`
@@ -1807,7 +1852,7 @@ ${formData.description}
 
             {/* STEP 5: CONTACT DETAILS & RESEND API DISPATCH */}
             {currentStep === 5 && (
-              <form onSubmit={handleFormSubmit} className="space-y-6">
+              <form onSubmit={handleFormSubmit} className="space-y-6" noValidate>
                 <input
                   ref={honeypotRef}
                   type="text"
@@ -1870,15 +1915,40 @@ ${formData.description}
                           La tua Email <span className="text-[#FF5722]">*</span>
                         </label>
                         <input
+                          id="contact-email"
                           type="email"
                           required
+                          aria-invalid={Boolean(fieldErrors.email)}
+                          aria-describedby={fieldErrors.email ? 'contact-email-error' : undefined}
                           value={formData.email}
-                          onChange={(e) =>
-                            setFormData((prev) => ({ ...prev, email: e.target.value }))
-                          }
+                          onChange={(e) => {
+                            const email = e.target.value;
+                            setFormData((prev) => ({ ...prev, email }));
+                            if (fieldErrors.email) {
+                              setFieldErrors((prev) => ({
+                                ...prev,
+                                email: EMAIL_REGEX.test(email.trim())
+                                  ? ''
+                                  : 'Dominio email non valido'
+                              }));
+                            }
+                          }}
                           placeholder="nome@azienda.it"
-                          className="w-full p-3.5 bg-[#F7F4EB] border-3 border-[#111111] font-mono-code text-xs font-bold"
+                          className={`w-full rounded-none border-4 p-3.5 font-mono-code text-xs font-bold ${
+                            fieldErrors.email
+                              ? 'border-red-600 bg-red-50'
+                              : 'border-black bg-[#F7F4EB]'
+                          }`}
                         />
+                        {fieldErrors.email && (
+                          <p
+                            id="contact-email-error"
+                            className="mt-2 rounded-none border-l-4 border-red-600 bg-red-50 px-3 py-2 font-mono-code text-xs font-extrabold text-red-700"
+                            role="alert"
+                          >
+                            {fieldErrors.email}
+                          </p>
+                        )}
                       </div>
 
                       <div>
@@ -1889,13 +1959,37 @@ ${formData.description}
                           id="phone"
                           name="phone"
                           defaultCountry="IT"
+                          aria-invalid={Boolean(fieldErrors.phone)}
+                          aria-describedby={fieldErrors.phone ? 'contact-phone-error' : undefined}
                           value={formData.phone || undefined}
-                          onChange={(value) =>
-                            setFormData((prev) => ({ ...prev, phone: value || '' }))
-                          }
+                          onChange={(value) => {
+                            setFormData((prev) => ({ ...prev, phone: value || '' }));
+                            if (fieldErrors.phone) {
+                              setFieldErrors((prev) => ({
+                                ...prev,
+                                phone:
+                                  value && !isValidContactPhone(value)
+                                    ? 'Numero di telefono non valido (inserisci 8-15 cifre nazionali)'
+                                    : ''
+                              }));
+                            }
+                          }}
                           placeholder="333 123 4567"
-                          className="neo-phone-input w-full border-4 border-black bg-[#F7F4EB] rounded-none"
+                          className={`neo-phone-input w-full rounded-none border-4 ${
+                            fieldErrors.phone
+                              ? 'has-error border-red-600 bg-red-50'
+                              : 'border-black bg-[#F7F4EB]'
+                          }`}
                         />
+                        {fieldErrors.phone && (
+                          <p
+                            id="contact-phone-error"
+                            className="mt-2 rounded-none border-l-4 border-red-600 bg-red-50 px-3 py-2 font-mono-code text-xs font-extrabold text-red-700"
+                            role="alert"
+                          >
+                            {fieldErrors.phone}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -1989,6 +2083,14 @@ ${formData.description}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => {
+                            if (!validateContactFields()) {
+                              e.preventDefault();
+                              setFormError(
+                                'Correggi i campi evidenziati prima di aprire Gmail.'
+                              );
+                              return;
+                            }
+
                             if (
                               !privacyAccepted ||
                               !formData.fullName.trim() ||
@@ -2015,7 +2117,6 @@ ${formData.description}
                             submitStatus === 'submitting' ||
                             !privacyAccepted ||
                             !formData.fullName.trim() ||
-                            !formData.email.trim() ||
                             !formData.description.trim()
                           }
                           className="w-full sm:w-auto px-6 py-3.5 sm:py-4 bg-[#FF5722] text-white brutal-btn font-mono-code font-extrabold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-center"

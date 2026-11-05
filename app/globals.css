@@ -85,3 +85,8 @@ body {
 .neo-phone-input:focus-within {
   box-shadow: inset 0 0 0 2px #111111;
 }
+
+.neo-phone-input.has-error {
+  border-color: #dc2626;
+  background: #fef2f2;
+}

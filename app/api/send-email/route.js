@@ -1,5 +1,17 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js/min';
+
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9_%+-]+(?:\.[a-zA-Z0-9_%+-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+
+const isValidContactPhone = (phone) => {
+  if (!phone || !isValidPhoneNumber(phone)) return false;
+
+  const parsedPhone = parsePhoneNumber(phone);
+  const nationalNumberLength = parsedPhone?.nationalNumber.length ?? 0;
+  return nationalNumberLength >= 8 && nationalNumberLength <= 15;
+};
 
 const escapeHtml = (value) =>
   String(value ?? '').replace(/[&<>"']/g, (character) => {
@@ -39,14 +51,6 @@ export async function POST(request) {
     return NextResponse.json({ success: true });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      { success: false, error: 'Il servizio email non è configurato.' },
-      { status: 500 }
-    );
-  }
-
   const {
     clientName,
     companyName,
@@ -64,11 +68,37 @@ export async function POST(request) {
     description
   } = body;
 
+  if (typeof clientEmail !== 'string' || !EMAIL_REGEX.test(clientEmail.trim())) {
+    return NextResponse.json(
+      {
+        success: false,
+        field: 'email',
+        error: 'Dominio email non valido.'
+      },
+      { status: 400 }
+    );
+  }
+
+  const normalizedClientEmail = clientEmail.trim();
+
+  if (
+    phone !== undefined &&
+    (typeof phone !== 'string' ||
+      (phone.trim() !== '' && !isValidContactPhone(phone.trim())))
+  ) {
+    return NextResponse.json(
+      {
+        field: 'phone',
+        success: false,
+        error: 'Il numero di telefono non è valido: inserisci 8-15 cifre nazionali.'
+      },
+      { status: 400 }
+    );
+  }
+
   if (
     typeof clientName !== 'string' ||
     !clientName.trim() ||
-    typeof clientEmail !== 'string' ||
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail) ||
     typeof description !== 'string' ||
     !description.trim() ||
     body.privacyPolicyAccepted !== true
@@ -80,6 +110,14 @@ export async function POST(request) {
           'Nome, email, descrizione del progetto e accettazione della Privacy Policy sono obbligatori.'
       },
       { status: 400 }
+    );
+  }
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json(
+      { success: false, error: 'Il servizio email non è configurato.' },
+      { status: 500 }
     );
   }
 
@@ -105,13 +143,13 @@ export async function POST(request) {
     const { data, error } = await resend.emails.send({
       from: 'Mattia Gabellieri <progetti@send.mattiagabellieri.com>',
       to: ['mattiagabellieri2008@gmail.com'],
-      replyTo: clientEmail,
+      replyTo: normalizedClientEmail,
       subject: `Nuovo contatto progetto da ${subjectName} (${subjectCompany})`,
       html: `
         <div style="font-family: monospace; background: #f4f4f4; padding: 20px; color: #111;">
           <h2 style="background: #FFE600; padding: 10px; border: 2px solid #111;">NUOVA RICHIESTA DAL CONFIGURATORE</h2>
           <p><strong>Nome / referente:</strong> ${escapeHtml(clientName)}</p>
-          <p><strong>Email cliente:</strong> ${escapeHtml(clientEmail)}</p>
+          <p><strong>Email cliente:</strong> ${escapeHtml(normalizedClientEmail)}</p>
           <p><strong>Azienda / attività:</strong> ${escapeHtml(companyName || 'Non specificata')}</p>
           <p><strong>Telefono / contatto:</strong> ${escapeHtml(phone || 'Non specificato')}</p>
           <hr style="border: 1px solid #111;" />
