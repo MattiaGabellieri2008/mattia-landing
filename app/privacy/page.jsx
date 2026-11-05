@@ -103,6 +103,15 @@ export default function PrivacyPage() {
               l&apos;indirizzo IP e informazioni sul browser.
             </p>
             <p className="mt-2">
+              <strong>Statistiche e Analisi della Navigazione.</strong> Questo
+              sito utilizza Vercel Web Analytics per raccogliere statistiche
+              aggregate e anonime sull&apos;utilizzo del sito (come
+              visualizzazioni di pagina, tipo di browser e nazione di
+              provenienza). Questo servizio è &quot;privacy-first&quot; e non
+              utilizza cookie di tracciamento, né memorizza dati personali o
+              indirizzi IP in chiaro.
+            </p>
+            <p className="mt-2">
               Vercel, Resend, GitHub e Google (incluso Gmail, se scelto)
               operano secondo i rispettivi termini e informative sulla privacy.
               I loro servizi possono
