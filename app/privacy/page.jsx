@@ -49,12 +49,14 @@ export default function PrivacyPage() {
             </h2>
             <p className="mt-2">
               Quando invii una richiesta tramite il configuratore possono essere
-              trattati i dati che inserisci, come nome, email, azienda,
-              telefono, preferenze relative al progetto e il testo del messaggio.
-              Questi dati sono utilizzati esclusivamente per ricevere, valutare
-              e rispondere alla tua richiesta di contatto relativa a un
-              progetto. Non sono utilizzati per finalità di marketing o per
-              inviare comunicazioni promozionali.
+              trattati i dati che inserisci: Nome, Indirizzo Email, Numero di
+              telefono e Note/Dettagli del progetto. Possono inoltre essere
+              raccolti l&apos;azienda, le preferenze relative al progetto e gli
+              altri dettagli che scegli di condividere. Questi dati sono
+              utilizzati esclusivamente per ricevere, valutare e rispondere
+              alla tua richiesta di contatto relativa a un progetto. Non sono
+              utilizzati per finalità di marketing o per inviare comunicazioni
+              promozionali.
             </p>
           </section>
 

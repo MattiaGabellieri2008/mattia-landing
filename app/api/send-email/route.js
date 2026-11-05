@@ -18,13 +18,6 @@ const formatValue = (value) =>
   Array.isArray(value) ? value.map(escapeHtml).join(', ') : escapeHtml(value);
 
 export async function POST(request) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      { success: false, error: 'Il servizio email non è configurato.' },
-      { status: 500 }
-    );
-  }
   let body;
   try {
     body = await request.json();
@@ -39,6 +32,18 @@ export async function POST(request) {
     return NextResponse.json(
       { success: false, error: 'I dati della richiesta non sono validi.' },
       { status: 400 }
+    );
+  }
+
+  if (typeof body.website_url === 'string' && body.website_url.length > 0) {
+    return NextResponse.json({ success: true });
+  }
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json(
+      { success: false, error: 'Il servizio email non è configurato.' },
+      { status: 500 }
     );
   }
 

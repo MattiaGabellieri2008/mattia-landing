@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import PhoneInput from 'react-phone-number-input';
 import {
   Code2,
   Rocket,
@@ -242,6 +243,7 @@ export default function Page() {
   const ecosistemaRef = useRef(null);
   const githubRef = useRef(null);
   const configuratorRef = useRef(null);
+  const honeypotRef = useRef(null);
 
   const scrollToSection = (ref) => {
     if (ref?.current) {
@@ -444,6 +446,7 @@ ${formData.description}
       clientEmail: formData.email,
       privacyPolicyAccepted: true,
       phone: formData.phone || 'Non specificato',
+      website_url: honeypotRef.current?.value || '',
       preferredContactMethod: formData.preferredContactMethod,
       clientProfile: getEffectiveClientProfile(),
       projectType: getEffectiveProjectType(),
@@ -1805,6 +1808,15 @@ ${formData.description}
             {/* STEP 5: CONTACT DETAILS & RESEND API DISPATCH */}
             {currentStep === 5 && (
               <form onSubmit={handleFormSubmit} className="space-y-6">
+                <input
+                  ref={honeypotRef}
+                  type="text"
+                  name="website_url"
+                  autoComplete="off"
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  className="opacity-0 absolute -z-50 h-0 w-0"
+                />
                 {submitStatus === 'idle' || submitStatus === 'submitting' ? (
                   <>
                     <div className="p-4 bg-[#FFE600] border-3 border-[#111111] font-mono-code text-xs space-y-1 overflow-hidden">
@@ -1873,14 +1885,16 @@ ${formData.description}
                         <label className="block font-display font-extrabold text-xs sm:text-sm uppercase text-[#111111] mb-1">
                           Telefono / WhatsApp (Consigliato)
                         </label>
-                        <input
-                          type="text"
-                          value={formData.phone}
-                          onChange={(e) =>
-                            setFormData((prev) => ({ ...prev, phone: e.target.value }))
+                        <PhoneInput
+                          id="phone"
+                          name="phone"
+                          defaultCountry="IT"
+                          value={formData.phone || undefined}
+                          onChange={(value) =>
+                            setFormData((prev) => ({ ...prev, phone: value || '' }))
                           }
-                          placeholder="+39 333 ..."
-                          className="w-full p-3.5 bg-[#F7F4EB] border-3 border-[#111111] font-mono-code text-xs font-bold"
+                          placeholder="333 123 4567"
+                          className="neo-phone-input w-full border-4 border-black bg-[#F7F4EB] rounded-none"
                         />
                       </div>
                     </div>

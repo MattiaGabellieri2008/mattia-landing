@@ -1,3 +1,4 @@
+@import "react-phone-number-input/style.css";
 @import "tailwindcss";
 
 :root {
@@ -23,4 +24,64 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.neo-phone-input {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 3rem;
+  border: 4px solid #111111;
+  border-radius: 0;
+  background: #f7f4eb;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.neo-phone-input .PhoneInputCountry {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0 0.75rem;
+  border-right: 4px solid #111111;
+  border-radius: 0;
+  background: #ffe600;
+}
+
+.neo-phone-input .PhoneInputCountrySelect,
+.neo-phone-input .PhoneInputCountryIcon,
+.neo-phone-input .PhoneInputCountrySelectArrow {
+  border-radius: 0;
+}
+
+.neo-phone-input .PhoneInputCountryIcon {
+  width: 1.5rem;
+  height: 1rem;
+  box-shadow: none;
+}
+
+.neo-phone-input .PhoneInputCountrySelectArrow {
+  margin-left: 0.5rem;
+  border-color: #111111;
+  opacity: 1;
+}
+
+.neo-phone-input .PhoneInputInput {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0.75rem 0.875rem;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: #111111;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.neo-phone-input:focus-within {
+  box-shadow: inset 0 0 0 2px #111111;
 }
